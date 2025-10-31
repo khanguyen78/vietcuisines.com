@@ -1,0 +1,42 @@
+baseURL = 'https://vietcuisines.com/'
+languageCode = 'en-us'
+title = "Viet Cuisines"
+
+theme = "quietfoodie"
+sectionPagesMenu = "main"
+
+[[menu.main]]
+  name = "About"
+  url = "/about/"
+  weight = 100
+
+[[menu.main]]
+  name = "Contact"
+  url = "/contact/"
+  weight = 110
+
+
+
+[markup.goldmark.renderer]
+    unsafe = true
+
+[params]
+    mainSections = ['Recipes']
+    authorname = "Kha Nguyen"
+    # change to false if you don't want to use recipe schema markup
+    recipeSchema = true
+
+[taxonomies]
+    tag = "tags"
+    course = "courses"
+
+[outputs]
+    home = ["HTML", "JSON", "RSS"]
+
+[module]
+    [module.hugoVersion]
+    min = "0.41.0"
+# if your baseurl is not the site root, set canonifyurls to true (if you're hosting on github pages, for example)
+canonifyURLs = "false"
+[pagination]
+pagerSize = 3
