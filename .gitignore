@@ -40,3 +40,7 @@ terraform.rc
 public/*
 public/
 
+
+terraform.tfstate
+terraform/.terraform
+.terraform
