@@ -5,7 +5,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "qtn-tf"
-    key    = "www.vietcuisines.com/prod/vietcuisinestf.tfstate"
+    key    = "vietcuisines.com/production/vietcuisines.com.tfstate"
     region = "us-east-1"
   }
 }
