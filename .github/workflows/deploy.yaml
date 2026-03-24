@@ -25,6 +25,7 @@ jobs:
           hugo-version: 'latest'
 
       - name: Build Hugo site
+        working-directory: site
         run: hugo --minify
 
       - name: Configure AWS credentials
@@ -36,7 +37,7 @@ jobs:
 
       - name: Sync to S3
         run: |
-          aws s3 sync public/ s3://$S3_BUCKET \
+          aws s3 sync site/public/ s3://$S3_BUCKET \
             --delete \
             --acl public-read \
             --cache-control "max-age=3600"
