@@ -31,3 +31,12 @@ output "s3_bucket_name" {
   value       = aws_s3_bucket.www_bucket.id
   description = "S3 bucket name."
 }
+
+resource "aws_s3_bucket_public_access_block" "www_bucket" {
+  bucket = aws_s3_bucket.www_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = false
+  ignore_public_acls      = true
+  restrict_public_buckets = false
+}
