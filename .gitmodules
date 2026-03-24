@@ -1,3 +1,6 @@
 [submodule "themes/quietfoodie"]
 	path = themes/quietfoodie
 	url = https://github.com/paposeco/quietfoodie.git
+[submodule "vietcuisines.com/themes/tella"]
+	path = vietcuisines.com/themes/tella
+	url = https://github.com/opera7133/tella.git

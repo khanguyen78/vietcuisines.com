@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "origin_bucket_policy" {
       "s3:GetObject"
     ]
     resources = [
-      "${aws_s3_bucket.bucket.arn}/*",
+      "${aws_s3_bucket.www_bucket.arn}/*",
     ]
     condition {
       test     = "StringEquals"
@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "origin_bucket_policy" {
 }
 
 resource "aws_s3_bucket_policy" "policy" {
-  bucket = aws_s3_bucket.bucket.bucket
+  bucket = aws_s3_bucket.www_bucket.id
   policy = data.aws_iam_policy_document.origin_bucket_policy.json
 }
 
@@ -42,27 +42,45 @@ resource "aws_cloudfront_origin_access_control" "default" {
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
+    domain_name              = aws_s3_bucket.www_bucket.bucket_regional_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.default.id
+    origin_id                = local.s3_origin_id
+
     #connection_attempts = 3
     #connection_timeout = 10
-    domain_name              = "${local.cname}.s3-website-us-east-1.amazonaws.com"
+    #domain_name              = "${local.cname}.s3-website-us-east-1.amazonaws.com"
     #origin_access_control_id = aws_cloudfront_origin_access_control.default.id
-    origin_id                = "${local.cname}.s3.us-east-1.amazonaws.com"
-    custom_origin_config {
-      http_port = 80
-      https_port = 443
-      ip_address_type = "ipv4"
-      origin_keepalive_timeout = 5
-      origin_protocol_policy   = "http-only"
-      origin_read_timeout      = 30 
-      origin_ssl_protocols     = [
-        "SSLv3",
-        "TLSv1",
-        "TLSv1.1",
-        "TLSv1.2",
-      ]
-    }
+    #origin_id                = "${local.cname}.s3.us-east-1.amazonaws.com"
+    #    custom_origin_config {
+    #
+    #      http_port = 80
+    #      https_port = 443
+    #      ip_address_type = "ipv4"
+    #      origin_keepalive_timeout = 5
+    #      origin_protocol_policy   = "http-only"
+    #      origin_read_timeout      = 30 
+    #      origin_ssl_protocols     = [
+    #        "SSLv3",
+    #        "TLSv1",
+    #        "TLSv1.1",
+    #        "TLSv1.2",
+    #      ]
+    #    }
   }
-  
+
+  custom_error_response {
+    error_code            = 403
+    response_code         = 200
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 0
+  }
+
+  custom_error_response {
+    error_code            = 404
+    response_code         = 200
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 0
+  }
 
   enabled             = true
   is_ipv6_enabled     = true
@@ -72,8 +90,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   aliases = [local.domain, local.cname]
 
   default_cache_behavior {
-    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
-    compress = true
+    cache_policy_id  = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    compress         = true
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = local.s3_origin_id
@@ -95,28 +113,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   tags = merge(local.common_tags, {
     Environment = "production"
-    Name = local.cname
+    Name        = local.cname
   })
 
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate.cert.arn
     ssl_support_method  = "sni-only"
   }
-}
-
-output "cf_distribution_id" {
-  value       = aws_cloudfront_distribution.s3_distribution.id
-  description = "Identifier for the distribution"
-}
-
-output "cf_distribution_arn" {
-  value       = aws_cloudfront_distribution.s3_distribution.arn
-  description = "ARN for the distribution"
-}
-
-output "cf_domain_name" {
-  value       = aws_cloudfront_distribution.s3_distribution.domain_name
-  description = "Domain name corresponding to the distribution."
 }
 
 resource "aws_route53_record" "cloudfront" {

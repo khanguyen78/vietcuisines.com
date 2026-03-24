@@ -1,11 +1,11 @@
 resource "aws_acm_certificate" "cert" {
-  domain_name       = local.domain
-  subject_alternative_names = [local.cname, local.wildcard ]
-  validation_method = "DNS"
+  domain_name               = local.domain
+  subject_alternative_names = [local.cname, local.wildcard]
+  validation_method         = "DNS"
 
-  tags = merge(local.common_tags,{
+  tags = merge(local.common_tags, {
     Environment = local.environment
-    Name = local.project
+    Name        = local.project
   })
 
   lifecycle {

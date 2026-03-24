@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "bucket" {
   bucket = local.project
-  
+
   tags = merge(local.common_tags, {
     Name        = local.project
     Environment = local.environment
@@ -11,10 +11,10 @@ resource "aws_s3_bucket_website_configuration" "configuration" {
   bucket = aws_s3_bucket.bucket.id
   redirect_all_requests_to {
     host_name = local.cname
-    protocol = "https"
+    protocol  = "https"
   }
 }
-  
+
 
 
 resource "aws_s3_bucket" "www_bucket" {

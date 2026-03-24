@@ -1,0 +1,151 @@
+baseURL = "https://vietcuisines.com"
+title = "Viet Cuisines"
+author = "Megan Nguyen"
+languageCode = "en"
+DefaultContentLanguage = "en"
+enableInlineShortcodes = true
+theme = "tella"
+enableRobotsTXT = true
+
+# Please enable this feature if the site is available in Japanese, Chinese or Korean.
+#hasCJKLanguage = true
+
+[services]
+  [services.googleAnalytics]
+  # If you're using Google Analytics, you can enable this feature.
+  #id = "G-1234567890"
+
+  [services.disqus]
+  # Disqus Comment System
+  #shortname = "your-disqus-shortname"
+
+[params]
+  showBlog = true
+  mainSections = ['blog']
+  googleFonts = true
+
+  [params.logo]
+    main = "img/logo/logo.svg"
+    alt = "Tella Logo"
+
+    # The size parameter is the class name of tailwindcss
+    # https://tailwindcss.com/
+    size = "h-14"
+
+  [params.site]
+    name = "Viet Cuisines"
+
+  [params.icon]
+    # If you want to use FontAwesome, set this parameter to true.
+    #fontawesome = true
+
+    # You can also use Bootstrap Icons.
+    bootstrap = true
+
+  [params.homepage_meta_tags]
+    meta_description = "vietcuisines.com...a site to share your love of food"
+    meta_og_title = "Viet Cuisines"
+    meta_og_type = "website"
+    meta_og_url = "https://www.vietcuisines.com"
+    meta_og_image = "https://raw.githubusercontent.com/opera7133/tella/master/images/tn.png"
+    meta_og_description = "vietcuisines.com...a site to share your love of food"
+    meta_twitter_card = "summary_large_image"
+    meta_twitter_site = "@thegreatmegan"
+    meta_twitter_creator = "@thegreatmegan"
+
+  [params.giscus]
+    # Giscus Comment System
+    # See https://giscus.app for setup instructions
+    #repo = "your-repo"
+    #repo_id = "your-repo-id"
+    #category = "Announcements"
+    #category_id = "your-category-id"
+    #mapping = "pathname"
+    #strict = "0"
+    #reactions_enabled = "1"
+    #emit_metadata = "0"
+    #input_position = "bottom"
+    #theme = "preferred_color_scheme"
+    #lang = "en"
+    #loading = "lazy"
+
+[menu]
+  [[menu.main]]
+    identifier = "recipes"
+    name = "Recipes"
+    url = "/recipes/"
+    weight = 1
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    url = "/blog/"
+    weight = 2
+
+  [[menu.main]]
+    identifier = "Contact"
+    name = "Contact"
+    url = "/contact/"
+    weight = 3
+
+  [[menu.main]]
+    identifier = "About"
+    name = "About"
+    url = "/about/"
+    weight = 2
+
+  # Footer Menu
+  [[menu.footer]]
+    name = "Home"
+    url = "/"
+    weight = 1
+
+  [[menu.footer]]
+    name = "Github"
+    url = "https://github.com/opera7133/tella"
+    #pre = "<i class='bi bi-github text-2xl'></i>"
+    weight = 2
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+series = "series"
+
+[privacy]
+  [privacy.vimeo]
+    disabled = false
+    simple = false
+
+  [privacy.x]
+    disabled = false
+    enableDNT = true
+    simple = false
+
+  [privacy.instagram]
+    disabled = false
+    simple = false
+
+  [privacy.youtube]
+    disabled = false
+    privacyEnhanced = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[build]
+  [build.buildStats]
+    enable = true
+  [[build.cachebusters]]
+    source = 'assets/notwatching/hugo_stats\.json'
+    target = 'css'
+
+[module]
+  [[module.mounts]]
+    source = 'assets'
+    target = 'assets'
+  [[module.mounts]]
+    disableWatch = true
+    source = 'hugo_stats.json'
+    target = 'assets/notwatching/hugo_stats.json'
